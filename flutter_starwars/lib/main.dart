@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Container(
-              height: 250,
+              height: 270,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: personas.length,
