@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_json_list/models/pokemon-response.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -32,39 +33,59 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Pokemon> pokemons = PokemonResponse.fromJson(jsonDecode(
-          '{"count":1118,"next":"https://pokeapi.co/api/v2/pokemon?offset=20&limit=20","previous":null,"results":[{"name":"bulbasaur","url":"https://pokeapi.co/api/v2/pokemon/1/"},{"name":"ivysaur","url":"https://pokeapi.co/api/v2/pokemon/2/"},{"name":"venusaur","url":"https://pokeapi.co/api/v2/pokemon/3/"},{"name":"charmander","url":"https://pokeapi.co/api/v2/pokemon/4/"},{"name":"charmeleon","url":"https://pokeapi.co/api/v2/pokemon/5/"},{"name":"charizard","url":"https://pokeapi.co/api/v2/pokemon/6/"},{"name":"squirtle","url":"https://pokeapi.co/api/v2/pokemon/7/"},{"name":"wartortle","url":"https://pokeapi.co/api/v2/pokemon/8/"},{"name":"blastoise","url":"https://pokeapi.co/api/v2/pokemon/9/"},{"name":"caterpie","url":"https://pokeapi.co/api/v2/pokemon/10/"},{"name":"metapod","url":"https://pokeapi.co/api/v2/pokemon/11/"},{"name":"butterfree","url":"https://pokeapi.co/api/v2/pokemon/12/"},{"name":"weedle","url":"https://pokeapi.co/api/v2/pokemon/13/"},{"name":"kakuna","url":"https://pokeapi.co/api/v2/pokemon/14/"},{"name":"beedrill","url":"https://pokeapi.co/api/v2/pokemon/15/"},{"name":"pidgey","url":"https://pokeapi.co/api/v2/pokemon/16/"},{"name":"pidgeotto","url":"https://pokeapi.co/api/v2/pokemon/17/"},{"name":"pidgeot","url":"https://pokeapi.co/api/v2/pokemon/18/"},{"name":"rattata","url":"https://pokeapi.co/api/v2/pokemon/19/"},{"name":"raticate","url":"https://pokeapi.co/api/v2/pokemon/20/"}]}'))
-      .results;
+  late Future<List<Pokemon>> pokemons;
+
+  @override
+  void initState() {
+    pokemons = fetchPokemon();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: pokemons.length,
-        itemBuilder: (context, index) {
-          List<String> urls = pokemons.elementAt(index).url.split('/');
-          String idFoto = urls[6];
-          return ListTile(
-              title: Card(
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                debugPrint('Card tapped.');
-              },
-              child: SizedBox(
-                  width: 300,
-                  height: 100,
-                  child: Row(
-                    children: [
-                      Image.network(
-                          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${idFoto}.png'),
-                      Text(pokemons.elementAt(index).name + ' #' + idFoto)
-                    ],
-                  )),
-            ),
-          ));
+        body: Center(
+      child: FutureBuilder<List<Pokemon>>(
+        future: pokemons,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return _pokemonList(snapshot.data!);
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
         },
       ),
+    ));
+  }
+
+  Future<List<Pokemon>> fetchPokemon() async {
+    final response =
+        await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon'));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return PokemonResponse.fromJson(jsonDecode(response.body)).results;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Widget _pokemonList(List<Pokemon> pokemonList) {
+    return ListView.builder(
+      itemCount: pokemonList.length,
+      itemBuilder: (context, index) {
+        return _pokemonItem(pokemonList.elementAt(index));
+      },
+    );
+  }
+
+  Widget _pokemonItem(Pokemon pokemon) {
+    return Card(
+      child: Text(pokemon.name),
     );
   }
 }
