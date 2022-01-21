@@ -79,20 +79,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SizedBox(
-                height: 275,
-                child: Center(
-                    child: FutureBuilder<List<People>>(
-                  future: personas,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return _peopleList(snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                )),
-              ),
+        height: 275,
+        child: Center(
+            child: FutureBuilder<List<People>>(
+          future: personas,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _peopleList(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        )),
+      ),
     );
   }
 
@@ -217,20 +217,20 @@ class _MyHomePageState2 extends State<MyHomePage2> {
         ),
       ),
       body: SizedBox(
-                height: 250,
-                child: Center(
-                    child: FutureBuilder<List<Planet>>(
-                  future: planetas,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return _planetsList(snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                )),
-              ),
+        height: 250,
+        child: Center(
+            child: FutureBuilder<List<Planet>>(
+          future: planetas,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _planetsList(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        )),
+      ),
     );
   }
 
@@ -245,11 +245,11 @@ class _MyHomePageState2 extends State<MyHomePage2> {
 
   Widget _planetsList(List<Planet> planetsList) {
     return ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: planetsList.length,
-        itemBuilder: (context, index) {
-          return _planetItem(planetsList.elementAt(index));
-        },
+      scrollDirection: Axis.horizontal,
+      itemCount: planetsList.length,
+      itemBuilder: (context, index) {
+        return _planetItem(planetsList.elementAt(index));
+      },
     );
   }
 
