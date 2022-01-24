@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bottom_navigation/details/pokemon_details.dart';
 import 'package:flutter_bottom_navigation/pages/animal_crossing.dart';
 import 'package:flutter_bottom_navigation/pages/fire_emblem.dart';
 import 'package:flutter_bottom_navigation/pages/pokemon.dart';
@@ -11,7 +12,7 @@ void main() {
       routes: {
         '/': (context) => const MyApp(),
         '/fire-emblem': (context) => const FireEmblem(),
-        '/pokemon': (context) => const Pokemon(),
+        '/pokemon': (context) => const PokemonDetails(),
         '/animal-crossing': (context) => const AnimalCrossing()
       },
     ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bottom_navigation/details/pokemon_details.dart';
 import 'package:flutter_bottom_navigation/models/amiibo.dart';
 import 'package:flutter_bottom_navigation/pages/pokemon.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ void main() {
       routes: {
         '/': (context) => const MyApp(),
         '/fire-emblem': (context) => const FireEmblem(),
-        '/pokemon': (context) => const Pokemon(),
+        '/pokemon': (context) => const PokemonDetails(),
         '/animal-crossing': (context) => const AnimalCrossing()
       },
     ),
