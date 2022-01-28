@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(40.0),
         child: Column(
           children: [
@@ -132,7 +132,15 @@ class _HomePageState extends State<HomePage> {
               )),
             ),
             Container(
-              height: 275,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              child: Text(
+                'Popular',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            Container(
+              height: 300,
               child: Center(
                   child: FutureBuilder<List<PopularMovie>>(
                 future: populares,
@@ -206,30 +214,26 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(
       width: 160,
       child: Card(
-        child: InkWell(
-            onTap: () {
-              debugPrint('Card tapped.');
-            },
-            child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                margin: EdgeInsets.all(15),
-                elevation: 10,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Column(
-                    children: <Widget>[
-                      Image(
-                        image: NetworkImage(
-                            'https://www.themoviedb.org/t/p/original/${popularMovie.posterPath}'),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(popularMovie.title),
-                      ),
-                    ],
+        child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            margin: EdgeInsets.all(15),
+            elevation: 10,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Column(
+                children: <Widget>[
+                  Image(
+                    image: NetworkImage(
+                        'https://www.themoviedb.org/t/p/original/${popularMovie.posterPath}'),
                   ),
-                ))),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(popularMovie.title),
+                  ),
+                ],
+              ),
+            )),
       ),
     );
   }
