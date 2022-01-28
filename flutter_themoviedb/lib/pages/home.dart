@@ -131,6 +131,21 @@ class _HomePageState extends State<HomePage> {
                 },
               )),
             ),
+            Container(
+              height: 275,
+              child: Center(
+                  child: FutureBuilder<List<PopularMovie>>(
+                future: populares,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _popularList(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                },
+              )),
+            ),
           ],
         ),
       ),

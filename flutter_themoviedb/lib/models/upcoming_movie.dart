@@ -83,7 +83,7 @@ class UpcomingMovie {
   late final String releaseDate;
   late final String title;
   late final bool video;
-  late final double? voteAverage;
+  late final dynamic voteAverage;
   late final int voteCount;
 
   UpcomingMovie.fromJson(Map<String, dynamic> json) {
