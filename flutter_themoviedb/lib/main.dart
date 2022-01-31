@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_themoviedb/pages/home.dart';
 import 'package:flutter_themoviedb/pages/home_menu.dart';
+import 'package:flutter_themoviedb/pages/movie_popular_details.dart';
+import 'package:flutter_themoviedb/pages/movie_upcoming_details.dart';
 
 void main() {
   runApp(
@@ -13,6 +15,8 @@ void main() {
         '/': (context) => const HomePage(),
         // When navigating to the "/" route, build the FirstScreen widget.
         '/menu': (context) => const HomeMenu(),
+        '/movie-popular-detail': (context) => const MoviePopularDetailsPage(),
+        '/movie-upcoming-detail': (context) => const MovieUpcomingDetailsPage(),
       },
     ),
   );

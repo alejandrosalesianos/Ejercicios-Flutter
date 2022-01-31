@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_themoviedb/pages/home.dart';
 
 class HomeMenu extends StatefulWidget {
   const HomeMenu({Key? key}) : super(key: key);
@@ -12,10 +13,7 @@ class _HomeMenuState extends State<HomeMenu> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+    HomePage(),
     Text(
       'Index 1: Business',
       style: optionStyle,
@@ -35,9 +33,6 @@ class _HomeMenuState extends State<HomeMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

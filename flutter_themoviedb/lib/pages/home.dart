@@ -213,8 +213,11 @@ class _HomePageState extends State<HomePage> {
   Widget _popularItem(PopularMovie popularMovie) {
     return SizedBox(
       width: 160,
+      child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, '/movie-popular-detail', arguments: popularMovie);
+            },
       child: Card(
-        child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             margin: EdgeInsets.all(15),
@@ -233,18 +236,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            )),
-      ),
+            ))),
     );
   }
 
   Widget _upcomingItem(UpcomingMovie upcomingMovie) {
     return SizedBox(
-      width: 160,
-      child: Card(
-        child: InkWell(
+      width: 150,
+      child: InkWell(
             onTap: () {
-              debugPrint('Card tapped.');
+              Navigator.pushNamed(context, '/movie-upcoming-detail', arguments: upcomingMovie);
             },
             child: Card(
                 shape: RoundedRectangleBorder(
@@ -266,7 +267,6 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ))),
-      ),
     );
   }
 }
