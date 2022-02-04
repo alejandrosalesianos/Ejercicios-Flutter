@@ -5,6 +5,7 @@ class EarthWeeklyResponse {
     required this.timezone,
     required this.timezoneOffset,
     required this.current,
+    required this.hourly,
     required this.daily,
   });
   late final double lat;
@@ -12,15 +13,17 @@ class EarthWeeklyResponse {
   late final String timezone;
   late final int timezoneOffset;
   late final Current current;
+  late final List<Hourly> hourly;
   late final List<Daily> daily;
-  
-  EarthWeeklyResponse.fromJson(Map<String, dynamic> json){
+
+  EarthWeeklyResponse.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
     lon = json['lon'];
     timezone = json['timezone'];
     timezoneOffset = json['timezone_offset'];
     current = Current.fromJson(json['current']);
-    daily = List.from(json['daily']).map((e)=>Daily.fromJson(e)).toList();
+    hourly = List.from(json['hourly']).map((e) => Hourly.fromJson(e)).toList();
+    daily = List.from(json['daily']).map((e) => Daily.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -30,7 +33,8 @@ class EarthWeeklyResponse {
     _data['timezone'] = timezone;
     _data['timezone_offset'] = timezoneOffset;
     _data['current'] = current.toJson();
-    _data['daily'] = daily.map((e)=>e.toJson()).toList();
+    _data['hourly'] = hourly.map((e) => e.toJson()).toList();
+    _data['daily'] = daily.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -52,22 +56,22 @@ class Current {
     required this.windDeg,
     required this.weather,
   });
-  late final dynamic dt;
-  late final dynamic sunrise;
-  late final dynamic sunset;
+  late final int dt;
+  late final int sunrise;
+  late final int sunset;
   late final double temp;
   late final double feelsLike;
-  late final dynamic pressure;
-  late final dynamic humidity;
-  late final dynamic dewPoint;
+  late final int pressure;
+  late final int humidity;
+  late final double dewPoint;
   late final dynamic uvi;
-  late final dynamic clouds;
-  late final dynamic visibility;
-  late final dynamic windSpeed;
-  late final dynamic windDeg;
+  late final int clouds;
+  late final int visibility;
+  late final double windSpeed;
+  late final int windDeg;
   late final List<Weather> weather;
-  
-  Current.fromJson(Map<String, dynamic> json){
+
+  Current.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
     sunrise = json['sunrise'];
     sunset = json['sunset'];
@@ -81,7 +85,8 @@ class Current {
     visibility = json['visibility'];
     windSpeed = json['wind_speed'];
     windDeg = json['wind_deg'];
-    weather = List.from(json['weather']).map((e)=>Weather.fromJson(e)).toList();
+    weather =
+        List.from(json['weather']).map((e) => Weather.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -99,7 +104,7 @@ class Current {
     _data['visibility'] = visibility;
     _data['wind_speed'] = windSpeed;
     _data['wind_deg'] = windDeg;
-    _data['weather'] = weather.map((e)=>e.toJson()).toList();
+    _data['weather'] = weather.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -115,8 +120,8 @@ class Weather {
   late final String main;
   late final String description;
   late final String icon;
-  
-  Weather.fromJson(Map<String, dynamic> json){
+
+  Weather.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     main = json['main'];
     description = json['description'];
@@ -129,6 +134,76 @@ class Weather {
     _data['main'] = main;
     _data['description'] = description;
     _data['icon'] = icon;
+    return _data;
+  }
+}
+
+class Hourly {
+  Hourly({
+    required this.dt,
+    required this.temp,
+    required this.feelsLike,
+    required this.pressure,
+    required this.humidity,
+    required this.dewPoint,
+    required this.uvi,
+    required this.clouds,
+    required this.visibility,
+    required this.windSpeed,
+    required this.windDeg,
+    required this.windGust,
+    required this.weather,
+    required this.pop,
+  });
+  late final int dt;
+  late final double temp;
+  late final dynamic feelsLike;
+  late final int pressure;
+  late final int humidity;
+  late final dynamic dewPoint;
+  late final dynamic uvi;
+  late final int clouds;
+  late final int visibility;
+  late final double windSpeed;
+  late final int windDeg;
+  late final double windGust;
+  late final List<Weather> weather;
+  late final int pop;
+
+  Hourly.fromJson(Map<String, dynamic> json) {
+    dt = json['dt'];
+    temp = json['temp'];
+    feelsLike = json['feels_like'];
+    pressure = json['pressure'];
+    humidity = json['humidity'];
+    dewPoint = json['dew_point'];
+    uvi = json['uvi'];
+    clouds = json['clouds'];
+    visibility = json['visibility'];
+    windSpeed = json['wind_speed'];
+    windDeg = json['wind_deg'];
+    windGust = json['wind_gust'];
+    weather =
+        List.from(json['weather']).map((e) => Weather.fromJson(e)).toList();
+    pop = json['pop'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['dt'] = dt;
+    _data['temp'] = temp;
+    _data['feels_like'] = feelsLike;
+    _data['pressure'] = pressure;
+    _data['humidity'] = humidity;
+    _data['dew_point'] = dewPoint;
+    _data['uvi'] = uvi;
+    _data['clouds'] = clouds;
+    _data['visibility'] = visibility;
+    _data['wind_speed'] = windSpeed;
+    _data['wind_deg'] = windDeg;
+    _data['wind_gust'] = windGust;
+    _data['weather'] = weather.map((e) => e.toJson()).toList();
+    _data['pop'] = pop;
     return _data;
   }
 }
@@ -165,15 +240,15 @@ class Daily {
   late final int pressure;
   late final int humidity;
   late final double dewPoint;
-  late final double? windSpeed;
+  late final double windSpeed;
   late final int windDeg;
   late final double windGust;
   late final List<Weather> weather;
   late final int clouds;
   late final int pop;
   late final dynamic uvi;
-  
-  Daily.fromJson(Map<String, dynamic> json){
+
+  Daily.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
     sunrise = json['sunrise'];
     sunset = json['sunset'];
@@ -188,7 +263,8 @@ class Daily {
     windSpeed = json['wind_speed'];
     windDeg = json['wind_deg'];
     windGust = json['wind_gust'];
-    weather = List.from(json['weather']).map((e)=>Weather.fromJson(e)).toList();
+    weather =
+        List.from(json['weather']).map((e) => Weather.fromJson(e)).toList();
     clouds = json['clouds'];
     pop = json['pop'];
     uvi = json['uvi'];
@@ -210,7 +286,7 @@ class Daily {
     _data['wind_speed'] = windSpeed;
     _data['wind_deg'] = windDeg;
     _data['wind_gust'] = windGust;
-    _data['weather'] = weather.map((e)=>e.toJson()).toList();
+    _data['weather'] = weather.map((e) => e.toJson()).toList();
     _data['clouds'] = clouds;
     _data['pop'] = pop;
     _data['uvi'] = uvi;
@@ -228,13 +304,13 @@ class Temp {
     required this.morn,
   });
   late final double day;
-  late final dynamic min;
-  late final double max;
+  late final double min;
+  late final dynamic max;
   late final double night;
   late final double eve;
   late final double morn;
-  
-  Temp.fromJson(Map<String, dynamic> json){
+
+  Temp.fromJson(Map<String, dynamic> json) {
     day = json['day'];
     min = json['min'];
     max = json['max'];
@@ -262,12 +338,12 @@ class FeelsLike {
     required this.eve,
     required this.morn,
   });
-  late final double day;
+  late final dynamic day;
   late final double night;
-  late final double? eve;
+  late final double eve;
   late final double morn;
-  
-  FeelsLike.fromJson(Map<String, dynamic> json){
+
+  FeelsLike.fromJson(Map<String, dynamic> json) {
     day = json['day'];
     night = json['night'];
     eve = json['eve'];
