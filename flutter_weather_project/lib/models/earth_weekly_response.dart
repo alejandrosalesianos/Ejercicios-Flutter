@@ -155,20 +155,20 @@ class Hourly {
     required this.weather,
     required this.pop,
   });
-  late final int dt;
-  late final double temp;
+  late final dynamic dt;
+  late final dynamic temp;
   late final dynamic feelsLike;
-  late final int pressure;
-  late final int humidity;
+  late final dynamic pressure;
+  late final dynamic humidity;
   late final dynamic dewPoint;
   late final dynamic uvi;
-  late final int clouds;
-  late final int visibility;
-  late final double windSpeed;
-  late final int windDeg;
-  late final double windGust;
+  late final dynamic clouds;
+  late final dynamic visibility;
+  late final dynamic windSpeed;
+  late final dynamic windDeg;
+  late final dynamic windGust;
   late final List<Weather> weather;
-  late final int pop;
+  late final dynamic pop;
 
   Hourly.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -307,7 +307,7 @@ class Temp {
   late final double min;
   late final dynamic max;
   late final double night;
-  late final double eve;
+  late final dynamic eve;
   late final double morn;
 
   Temp.fromJson(Map<String, dynamic> json) {
