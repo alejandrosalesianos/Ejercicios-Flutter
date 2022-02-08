@@ -4,6 +4,7 @@ import 'package:flutter_weather_project/models/current_response.dart';
 import 'package:flutter_weather_project/models/earth_weekly_response.dart';
 import 'package:flutter_weather_project/styles/styles.dart';
 import 'package:date_format/date_format.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class EarthWeatherPage extends StatefulWidget {
@@ -76,12 +77,56 @@ class _EarthWeatherPageState extends State<EarthWeatherPage> {
                     return const CircularProgressIndicator();
                   }),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(
+                'Prevision por horas',
+                style: Styles.temp,
+              ),
+            ),
             FutureBuilder<List<Hourly>>(
                 future: dailyHourly,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return _currentWeatherHourlyList(snapshot.data!);
                   } else if (snapshot.hasData) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                }),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(
+                'Prevision por dias',
+                style: Styles.temp,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: FutureBuilder<List<Daily>>(
+                  future: dailyWeather,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return _currentWeatherDailyList(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const CircularProgressIndicator();
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                'Prevision para mañana',
+                style: Styles.temp,
+              ),
+            ),
+            FutureBuilder<List<Daily>>(
+                future: dailyWeather,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _tommorrowDetails(snapshot.data!.elementAt(1));
+                  } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
                   return const CircularProgressIndicator();
@@ -335,6 +380,108 @@ Widget _currentWeatherHourly(Hourly hourly) {
             )
           ],
         ),
+      ),
+    ),
+  );
+}
+
+Widget _currentWeatherDailyList(List<Daily> dailyList) {
+  return SizedBox(
+    width: 600,
+    height: 130,
+    child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: dailyList.length,
+        itemBuilder: (context, index) {
+          return _currentWeatherDaily(dailyList.elementAt(index));
+        }),
+  );
+}
+
+Widget _currentWeatherDaily(Daily daily) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: ClipRRect(
+      borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20), top: Radius.circular(20)),
+      child: Container(
+        width: 75,
+        color: Styles.container,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Image.network(
+                  'http://openweathermap.org/img/wn/${daily.weather[0].icon}.png'),
+            ),
+            Text(
+              DateFormat('EEEE').format(_UnixToUtcConverter(daily.dt)),
+              style: TextStyle(color: Styles.textoFecha),
+            ),
+            Text(
+              '\n${daily.temp.day.toStringAsFixed(0)}º',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _tommorrowDetails(Daily daily) {
+  return ClipRRect(
+    borderRadius: BorderRadius.all(Radius.circular(20)),
+    child: Container(
+      color: Styles.container,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15, bottom: 15),
+            child: RichText(
+                text: TextSpan(
+                    text: '\n' +
+                        DateFormat('EEEE')
+                            .format(_UnixToUtcConverter(daily.dt)),
+                    style: TextStyle(color: Styles.textoFecha),
+                    children: <TextSpan>[
+                  TextSpan(
+                      text: '\n' +
+                          DateFormat('LLL')
+                              .format(_UnixToUtcConverter(daily.dt)) +
+                          ' ' +
+                          DateFormat('d').format(_UnixToUtcConverter(daily.dt)),
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ])),
+          ),
+          Image.network(
+              'http://openweathermap.org/img/wn/${daily.weather[0].icon}.png'),
+          RichText(
+              text: TextSpan(
+                  text: daily.weather[0].description,
+                  style: TextStyle(color: Styles.clima),
+                  children: <TextSpan>[
+                TextSpan(
+                    text: '\n' + daily.windSpeed.toString() + 'km/h',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ])),
+          Padding(
+            padding: const EdgeInsets.only(left: 30),
+            child: RichText(
+                text: TextSpan(
+                    text: daily.temp.max.toStringAsFixed(0) +
+                        'º'
+                            ' / ' +
+                        daily.temp.min.toStringAsFixed(0) +
+                        'º',
+                    children: <TextSpan>[
+                  TextSpan(
+                      text: '\nHumidity: ' + daily.humidity.toString() + '%',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ])),
+          ),
+        ],
       ),
     ),
   );
