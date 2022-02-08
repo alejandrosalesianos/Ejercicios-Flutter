@@ -6,12 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 const CameraPosition _kInitialPosition =
     CameraPosition(target: LatLng(37.3754865, -6.0250989), zoom: 11.0);
 
-class MapClickPage extends GoogleMapExampleAppPage {
-  const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
+class Mapa extends GoogleMapExampleAppPage {
+  const Mapa() : super(const Icon(Icons.mouse), 'Map click');
 
   @override
   Widget build(BuildContext context) {
-    return const _MapaClick();
+    return const _MapaClickBody();
   }
 }
 
@@ -22,15 +22,15 @@ abstract class GoogleMapExampleAppPage extends StatelessWidget {
   final String title;
 }
 
-class _MapaClick extends StatefulWidget {
-  const _MapaClick();
+class _MapaClickBody extends StatefulWidget {
+  const _MapaClickBody();
 
   @override
-  State<StatefulWidget> createState() => _MapaClickState();
+  State<StatefulWidget> createState() => _MapaClickBodyState();
 }
 
-class _MapClickBodyState extends State<_MapClickBody> {
-  _MapClickBodyState();
+class _MapaClickBodyState extends State<_MapaClickBody> {
+  _MapaClickBodyState();
 
   GoogleMapController? mapController;
   LatLng _lastTap = LatLng(37.3754865, -6.0250989);

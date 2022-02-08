@@ -12,7 +12,7 @@ void main() {
       routes: {
         '/': (context) => const EarthWeatherPage(),
         '/home': (context) => const HomePage(),
-        '/menu': (context) => const Mapa(),
+        '/menu': (context) => const MenuNavigator(),
         //'/movie-upcoming-detail': (context) => const MovieUpcomingDetailsPage(),
       },
     ),
