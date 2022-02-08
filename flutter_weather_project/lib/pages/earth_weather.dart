@@ -4,8 +4,14 @@ import 'package:flutter_weather_project/models/current_response.dart';
 import 'package:flutter_weather_project/models/earth_weekly_response.dart';
 import 'package:flutter_weather_project/styles/styles.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_weather_project/utils/preference_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+late double latSelected = 0;
+late double lngSelected = 0;
+
 
 class EarthWeatherPage extends StatefulWidget {
   const EarthWeatherPage({Key? key}) : super(key: key);
@@ -139,8 +145,17 @@ class _EarthWeatherPageState extends State<EarthWeatherPage> {
 }
 
 Future<Current> fetchCurrentWeather() async {
+
+  PreferenceUtils.init();
+  var lat = PreferenceUtils.getDouble('lat');
+  var lng = PreferenceUtils.getDouble('lng');
+
+  latSelected = lat!;
+  lngSelected = lng!;
+
+
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3900738&lon=-6.0149929&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=${lat})&lon=${lng}&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -154,8 +169,17 @@ Future<Current> fetchCurrentWeather() async {
 }
 
 Future<List<Hourly>> fetchCurrentWeatherHourly() async {
+  PreferenceUtils.init();
+
+  var lat = PreferenceUtils.getDouble('lat');
+  var lng = PreferenceUtils.getDouble('lng');
+
+  latSelected = lat!;
+  lngSelected = lng!;
+
+
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3900738&lon=-6.0149929&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=${lat})&lon=${lng}&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -169,8 +193,17 @@ Future<List<Hourly>> fetchCurrentWeatherHourly() async {
 }
 
 Future<List<Daily>> fetchDailyWeather() async {
+  PreferenceUtils.init();
+
+  var lat = PreferenceUtils.getDouble('lat');
+  var lng = PreferenceUtils.getDouble('lng');
+
+  latSelected = lat!;
+  lngSelected = lng!;
+
+
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3900738&lon=-6.0149929&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=${lat})&lon=${lng}&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -184,6 +217,7 @@ Future<List<Daily>> fetchDailyWeather() async {
 }
 
 Future<String> fetchCurrentWeatherName() async {
+  
   final response = await http.get(Uri.parse(
       'https://api.openweathermap.org/data/2.5/weather?lat=37.3900738&lon=-6.0149929&appid=0b424a69dd2333b94bafd47a85876ccc'));
 
