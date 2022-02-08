@@ -32,6 +32,7 @@ class _EarthWeatherPageState extends State<EarthWeatherPage> {
     dailyWeather = fetchDailyWeather();
     currentName = fetchCurrentWeatherName();
     dailyHourly = fetchCurrentWeatherHourly();
+    PreferenceUtils.init();
     super.initState();
   }
 
@@ -146,16 +147,15 @@ class _EarthWeatherPageState extends State<EarthWeatherPage> {
 
 Future<Current> fetchCurrentWeather() async {
 
-  /*PreferenceUtils.init();
   var lat = PreferenceUtils.getDouble('lat');
   var lng = PreferenceUtils.getDouble('lng');
 
   latSelected = lat!;
-  lngSelected = lng!;*/
+  lngSelected = lng!;
 
 
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3900738&lon=-6.0149929&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=0b424a69dd2333b94bafd47a85876ccc&units=metric'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

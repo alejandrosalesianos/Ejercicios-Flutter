@@ -56,19 +56,19 @@ class Current {
     required this.windDeg,
     required this.weather,
   });
-  late final int dt;
-  late final int sunrise;
-  late final int sunset;
-  late final double temp;
-  late final double feelsLike;
-  late final int pressure;
-  late final int humidity;
-  late final double dewPoint;
+  late final dynamic dt;
+  late final dynamic sunrise;
+  late final dynamic sunset;
+  late final dynamic temp;
+  late final dynamic feelsLike;
+  late final dynamic pressure;
+  late final dynamic humidity;
+  late final dynamic dewPoint;
   late final dynamic uvi;
-  late final int clouds;
-  late final int visibility;
-  late final double windSpeed;
-  late final int windDeg;
+  late final dynamic clouds;
+  late final dynamic visibility;
+  late final dynamic windSpeed;
+  late final dynamic windDeg;
   late final List<Weather> weather;
 
   Current.fromJson(Map<String, dynamic> json) {
