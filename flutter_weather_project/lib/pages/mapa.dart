@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_project/utils/preference_utils.dart';
-import 'package:google_geocoding/google_geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const CameraPosition _kInitialPosition =
     CameraPosition(target: LatLng(37.3754865, -6.0250989), zoom: 11.0);
@@ -33,17 +30,12 @@ class _MapaClickBody extends StatefulWidget {
 }
 
 class _MapaClickBodyState extends State<_MapaClickBody> {
-  _MapaClickBodyState();
-
   GoogleMapController? mapController;
   LatLng _lastTap = LatLng(37.3754865, -6.0250989);
   LatLng? _lastLongPress;
-  String _lat = 'OwO';
-  
 
   @override
   Widget build(BuildContext context) {
-
     final GoogleMap googleMap = GoogleMap(
       onMapCreated: onMapCreated,
       initialCameraPosition: _kInitialPosition,
@@ -51,9 +43,8 @@ class _MapaClickBodyState extends State<_MapaClickBody> {
         setState(() {
           _lastTap = pos;
         });
-          PreferenceUtils.setDouble('lat', pos.latitude);
-          PreferenceUtils.setDouble('lng', pos.longitude);
-          
+        PreferenceUtils.setDouble('lat', pos.latitude);
+        PreferenceUtils.setDouble('lng', pos.longitude);
       },
       markers: <Marker>{_createMarker()},
       onLongPress: (LatLng pos) {
@@ -91,8 +82,8 @@ class _MapaClickBodyState extends State<_MapaClickBody> {
   Marker _createMarker() {
     return Marker(
       markerId: MarkerId("marker_1"),
-      position: _lastTap,
+      position: LatLng(
+          PreferenceUtils.getDouble('lat')!, PreferenceUtils.getDouble('lng')!),
     );
   }
 }
-

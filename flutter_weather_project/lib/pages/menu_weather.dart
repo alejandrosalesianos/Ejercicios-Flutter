@@ -14,13 +14,11 @@ class _MenuNavigatorState extends State<MenuNavigator> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     EarthWeatherPage(),
     Mapa(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    Image.network(
+        'http://pm1.narvii.com/6231/e7c992073a051de7413e534fc9673571eed03f2d_00.jpg')
   ];
 
   void _onItemTapped(int index) {
@@ -47,8 +45,8 @@ class _MenuNavigatorState extends State<MenuNavigator> {
             label: 'Mapa',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.public),
+            label: 'Marte',
           ),
         ],
         currentIndex: _selectedIndex,

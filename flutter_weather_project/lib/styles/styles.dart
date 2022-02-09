@@ -11,7 +11,8 @@ class Styles {
   static const Color clima = Color(0xffFFBD00);
 
   static TextStyle get textCiudad =>
-      GoogleFonts.getFont('Poppins', color: Colors.white, fontSize: 15);
+      GoogleFonts.getFont('Poppins', color: Colors.white, fontSize: 25);
   static TextStyle temp =
       TextStyle(color: textoFecha, fontSize: 30, fontWeight: FontWeight.bold);
+  static TextStyle welcome = TextStyle(color: textoFecha, fontSize: 30);
 }

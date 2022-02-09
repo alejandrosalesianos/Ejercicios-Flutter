@@ -8,10 +8,10 @@ class EarthWeeklyResponse {
     required this.hourly,
     required this.daily,
   });
-  late final double lat;
-  late final double lon;
+  late final dynamic lat;
+  late final dynamic lon;
   late final String timezone;
-  late final int timezoneOffset;
+  late final dynamic timezoneOffset;
   late final Current current;
   late final List<Hourly> hourly;
   late final List<Daily> daily;
@@ -116,7 +116,7 @@ class Weather {
     required this.description,
     required this.icon,
   });
-  late final int id;
+  late final dynamic id;
   late final String main;
   late final String description;
   late final String icon;
@@ -303,12 +303,12 @@ class Temp {
     required this.eve,
     required this.morn,
   });
-  late final double day;
-  late final double min;
+  late final dynamic day;
+  late final dynamic min;
   late final dynamic max;
-  late final double night;
+  late final dynamic night;
   late final dynamic eve;
-  late final double morn;
+  late final dynamic morn;
 
   Temp.fromJson(Map<String, dynamic> json) {
     day = json['day'];
@@ -339,9 +339,9 @@ class FeelsLike {
     required this.morn,
   });
   late final dynamic day;
-  late final double night;
-  late final double eve;
-  late final double morn;
+  late final dynamic night;
+  late final dynamic eve;
+  late final dynamic morn;
 
   FeelsLike.fromJson(Map<String, dynamic> json) {
     day = json['day'];
