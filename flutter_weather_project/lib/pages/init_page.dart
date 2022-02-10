@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_project/pages/mapa.dart';
+import 'package:flutter_weather_project/pages/mapa_inicio.dart';
 import 'package:flutter_weather_project/styles/styles.dart';
+import 'package:flutter_weather_project/utils/preference_utils.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class _InitPageState extends State<InitPage> {
                   style: Styles.welcome,
                 ),
               ),
-              Mapa(),
+              MapaInicio(),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: ClipRRect(

@@ -243,7 +243,7 @@ Widget _currentWeather(Current current) {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  '${current.temp}º | Feels like ${current.feelsLike}',
+                  '${current.temp}º | Feels like ${current.feelsLike}º',
                   style: TextStyle(color: Styles.textoFecha),
                 ),
               )
@@ -283,7 +283,7 @@ Widget _currentWeather(Current current) {
                       Image.network(
                           'http://openweathermap.org/img/wn/${current.weather[0].icon}.png'),
                       Text(
-                        'Precipitaciones: ${current.clouds}%',
+                        'Precipitación: ${current.clouds}%',
                         style: TextStyle(color: Styles.textoFecha),
                       )
                     ],

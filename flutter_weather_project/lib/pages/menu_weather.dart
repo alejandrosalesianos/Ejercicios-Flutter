@@ -14,9 +14,9 @@ class _MenuNavigatorState extends State<MenuNavigator> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    EarthWeatherPage(),
-    Mapa(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const EarthWeatherPage(),
+    const Mapa(),
     Image.network(
         'http://pm1.narvii.com/6231/e7c992073a051de7413e534fc9673571eed03f2d_00.jpg')
   ];

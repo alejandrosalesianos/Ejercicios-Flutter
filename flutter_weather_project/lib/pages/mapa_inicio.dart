@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_project/pages/seach_bar.dart';
 import 'package:flutter_weather_project/utils/preference_utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const CameraPosition _kInitialPosition =
     CameraPosition(target: LatLng(37.3754865, -6.0250989), zoom: 11.0);
 
-class Mapa extends GoogleMapExampleAppPage {
-  const Mapa() : super(const Icon(Icons.mouse), 'Map click');
+class MapaInicio extends GoogleMapExampleAppPage {
+  const MapaInicio() : super(const Icon(Icons.mouse), 'Map click');
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +66,11 @@ class _MapaClickBodyState extends State<_MapaClickBody> {
         child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 200,
+            height: MediaQuery.of(context).size.height - 150,
             child: googleMap,
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: SearchBarWidget(),
-      )
     ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -91,15 +86,6 @@ class _MapaClickBodyState extends State<_MapaClickBody> {
   }
 
   Marker _createMarker() {
-    return Marker(markerId: MarkerId("marker_1"), position: position());
-  }
-
-  LatLng position() {
-    if (PreferenceUtils.getDouble('lat') == null) {
-      return _lastTap;
-    } else {
-      return LatLng(
-          PreferenceUtils.getDouble('lat')!, PreferenceUtils.getDouble('lng')!);
-    }
+    return Marker(markerId: MarkerId("marker_1"), position: _lastTap);
   }
 }
