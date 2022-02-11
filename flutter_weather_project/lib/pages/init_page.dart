@@ -20,7 +20,7 @@ class _InitPageState extends State<InitPage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
                 child: Text(
                   'Bienvenido a la aplicacion del tiempo.\n ¿De dónde es usted?',
                   style: Styles.welcome,
@@ -28,7 +28,7 @@ class _InitPageState extends State<InitPage> {
               ),
               MapaInicio(),
               Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 1),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: InkWell(

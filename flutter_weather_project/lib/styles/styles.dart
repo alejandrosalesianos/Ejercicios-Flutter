@@ -13,6 +13,6 @@ class Styles {
   static TextStyle get textCiudad =>
       GoogleFonts.getFont('Poppins', color: Colors.white, fontSize: 25);
   static TextStyle temp =
-      TextStyle(color: textoFecha, fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(color: textoFecha, fontSize: 24, fontWeight: FontWeight.bold);
   static TextStyle welcome = TextStyle(color: textoFecha, fontSize: 30);
 }

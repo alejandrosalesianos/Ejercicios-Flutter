@@ -4,9 +4,6 @@ import 'package:flutter_weather_project/pages/seach_bar.dart';
 import 'package:flutter_weather_project/utils/preference_utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const CameraPosition _kInitialPosition =
-    CameraPosition(target: LatLng(37.3754865, -6.0250989), zoom: 11.0);
-
 class Mapa extends GoogleMapExampleAppPage {
   const Mapa() : super(const Icon(Icons.mouse), 'Map click');
 
@@ -45,7 +42,10 @@ class _MapaClickBodyState extends State<_MapaClickBody> {
   Widget build(BuildContext context) {
     final GoogleMap googleMap = GoogleMap(
       onMapCreated: onMapCreated,
-      initialCameraPosition: _kInitialPosition,
+      initialCameraPosition: CameraPosition(
+          target: LatLng(PreferenceUtils.getDouble('lat')!,
+              PreferenceUtils.getDouble('lng')!),
+          zoom: 11.0),
       onTap: (LatLng pos) async {
         setState(() {
           _lastTap = pos;

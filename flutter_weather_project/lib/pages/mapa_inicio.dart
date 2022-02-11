@@ -66,7 +66,7 @@ class _MapaClickBodyState extends State<_MapaClickBody> {
         child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 150,
+            height: MediaQuery.of(context).size.height - 240,
             child: googleMap,
           ),
         ),

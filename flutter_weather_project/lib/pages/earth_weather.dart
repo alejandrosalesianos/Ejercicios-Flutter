@@ -237,7 +237,11 @@ Widget _currentWeather(Current current) {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 30, top: 20),
-                child: Image.asset('assets/icons/${current.weather[0].icon}.png', width: 75,height: 75,),
+                child: Image.asset(
+                  'assets/icons/${current.weather[0].icon}.png',
+                  width: 75,
+                  height: 75,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
@@ -279,7 +283,11 @@ Widget _currentWeather(Current current) {
                   alignment: Alignment.bottomLeft,
                   child: Row(
                     children: [
-                      Image.asset('assets/icons/${current.weather[0].icon}.png', width: 40,height: 40,),
+                      Image.asset(
+                        'assets/icons/${current.weather[0].icon}.png',
+                        width: 40,
+                        height: 40,
+                      ),
                       Text(
                         'Precipitación: ${current.clouds}%',
                         style: TextStyle(color: Styles.textoFecha),
@@ -310,7 +318,11 @@ Widget _currentWeather(Current current) {
                   alignment: Alignment.bottomLeft,
                   child: Row(
                     children: [
-                      Image.asset('assets/icons/${current.weather[0].icon}.png', width: 40,height: 40,),
+                      Image.asset(
+                        'assets/icons/${current.weather[0].icon}.png',
+                        width: 40,
+                        height: 40,
+                      ),
                       Text(
                         'Viento: ${current.windSpeed}km/h',
                         style: TextStyle(color: Styles.textoFecha),
@@ -363,7 +375,11 @@ Widget _currentWeatherIcon(Current current) {
   if (current.humidity >= 50) {
     return Image.network('http://openweathermap.org/img/wn/09d.png');
   } else {
-    return Image.asset('assets/icons/${current.weather[0].icon}.png', width: 40,height: 40,);
+    return Image.asset(
+      'assets/icons/${current.weather[0].icon}.png',
+      width: 40,
+      height: 40,
+    );
   }
 }
 
@@ -398,7 +414,11 @@ Widget _currentWeatherHourly(Hourly hourly) {
                 style: TextStyle(color: Styles.textoFecha),
               ),
             ),
-            Image.asset('assets/icons/${hourly.weather[0].icon}.png', width: 40,height: 40,),
+            Image.asset(
+              'assets/icons/${hourly.weather[0].icon}.png',
+              width: 40,
+              height: 40,
+            ),
             Text(
               '${hourly.temp.toStringAsFixed(0)}º',
               style:
@@ -431,13 +451,17 @@ Widget _currentWeatherDaily(Daily daily) {
       borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(20), top: Radius.circular(20)),
       child: Container(
-        width: 75,
+        width: 85,
         color: Styles.container,
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Image.asset('assets/icons/${daily.weather[0].icon}.png', width: 50,height: 50,),
+              child: Image.asset(
+                'assets/icons/${daily.weather[0].icon}.png',
+                width: 50,
+                height: 50,
+              ),
             ),
             Text(
               DateFormat('EEEE').format(_UnixToUtcConverter(daily.dt)),
@@ -480,7 +504,11 @@ Widget _tommorrowDetails(Daily daily) {
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ])),
           ),
-          Image.asset('assets/icons/${daily.weather[0].icon}.png', width: 40,height: 40,),
+          Image.asset(
+            'assets/icons/${daily.weather[0].icon}.png',
+            width: 40,
+            height: 40,
+          ),
           RichText(
               text: TextSpan(
                   text: daily.weather[0].description,
