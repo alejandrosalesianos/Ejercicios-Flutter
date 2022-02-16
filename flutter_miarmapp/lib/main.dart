@@ -17,12 +17,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
-  routes: {
-    '/': (context) => const MenuScreen(),
-    '/login': (context) => const LoginScreen(),
-    '/register': (context) => const RegisterScreen(),
-  },
+      initialRoute: '/login',
+      routes: {
+        '/': (context) => const MenuScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+      },
     );
   }
 }
