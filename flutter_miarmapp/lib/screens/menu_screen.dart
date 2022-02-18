@@ -77,9 +77,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             : Colors.transparent,
                         width: 1)),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
-                    'assets/images/FotoPerfil.jpg',
+                    'assets/images/muramasa.png',
                     width: 30,
                   ),
                 ),

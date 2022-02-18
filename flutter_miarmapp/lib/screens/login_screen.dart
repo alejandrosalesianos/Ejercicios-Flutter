@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -83,7 +84,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: MediaQuery.of(context).size.width / 1.5,
                           height: 30,
                           child: ElevatedButton(
-                              onPressed: () {}, child: Text('Iniciar Sesion')),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: Text('Iniciar Sesion')),
                         ),
                       ),
                       SizedBox(
@@ -130,8 +134,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: TextSpan(
                       text: '¿No tienes una cuenta todavía?',
                       style: TextStyle(color: Colors.black),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushNamed(context, '/register');
+                              },
                             text: ' Regístrate',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
