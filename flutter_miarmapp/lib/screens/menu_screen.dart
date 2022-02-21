@@ -22,7 +22,10 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: pages[_currentIndex], bottomNavigationBar: _buildBottomBar());
+        body: Container(
+            margin: MediaQuery.of(context).padding,
+            child: pages[_currentIndex]),
+        bottomNavigationBar: _buildBottomBar());
   }
 
   Widget _buildBottomBar() {

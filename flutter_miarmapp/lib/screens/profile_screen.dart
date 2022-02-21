@@ -7,7 +7,20 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+      initialIndex: 0,
+      length: 2,
+      vsync: this,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -185,45 +198,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.grey[800],
                       thickness: 2.0,
                     ),
-                    SizedBox(height: 12.0),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 200.0,
-                            child: Icon(Icons.grid_on_outlined,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                          ),
-                          Container(
-                            width: 150.0,
-                            child: Icon(Icons.portrait_outlined,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                          ),
+                    SizedBox(
+                      height: 70,
+                      child: TabBar(
+                        indicatorColor: Colors.grey,
+                        controller: tabController,
+                        tabs: [
+                          Tab(
+                              icon: Icon(
+                            Icons.table_chart_outlined,
+                            color: Colors.grey,
+                          )),
+                          Tab(
+                              icon: Icon(
+                            Icons.person_search,
+                            color: Colors.grey,
+                          )),
                         ],
                       ),
                     ),
-                    SizedBox(height: 60.0),
-                    Center(
-                        child: Column(children: [
-                      Container(
-                        padding: EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 2.0,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            )),
-                        child: Icon(Icons.photo_camera_outlined,
-                            color: Color.fromARGB(255, 0, 0, 0), size: 40.0),
+                    SizedBox(
+                      height: 60.0,
+                      child: TabBarView(
+                        controller: tabController,
+                        children: [Text('Tab 1'), Text('Tab 2')],
                       ),
-                      SizedBox(height: 10),
-                      Text("No hay Publicaciones",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0)),
-                    ]))
+                    ),
                   ],
                 ),
               ),
