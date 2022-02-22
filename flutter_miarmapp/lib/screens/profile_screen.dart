@@ -185,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             Container(
                               width: 350.0,
                               height: 35.0,
-                              child: Text("Historias Destacadas",
+                              child: const Text("Historias Destacadas",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontWeight: FontWeight.bold)),
@@ -203,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       child: TabBar(
                         indicatorColor: Colors.grey,
                         controller: tabController,
-                        tabs: [
+                        tabs: const [
                           Tab(
                               icon: Icon(
                             Icons.table_chart_outlined,
@@ -211,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           )),
                           Tab(
                               icon: Icon(
-                            Icons.person_search,
+                            Icons.person_pin_outlined,
                             color: Colors.grey,
                           )),
                         ],
