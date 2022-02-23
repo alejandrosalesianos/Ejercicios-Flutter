@@ -36,7 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 height: 50,
                 child: TextField(
                   controller: _searchController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(),
                       labelText: 'Busca Publicaciones aqui'),
@@ -47,10 +47,12 @@ class _SearchScreenState extends State<SearchScreen> {
               create: (context) {
                 return BlocPostsBloc(postRepository)..add(FetchPosts());
               },
-              child: Scaffold(
-                body: _createPosts(context),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 200,
+                child: _createPosts(context),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -76,13 +78,24 @@ class _SearchScreenState extends State<SearchScreen> {
 
   _buildPosts(BuildContext context, List<Post> posts) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width - 50,
-      height: MediaQuery.of(context).size.height - 50,
-      child: ListView.builder(itemBuilder: (context, index) {
-        return _buildPostItem(context, posts.elementAt(index));
-      }),
-    );
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: GridView.count(
+            padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+            crossAxisSpacing: 20,
+            crossAxisCount: 3,
+            children: List.generate(posts.length, (index) {
+              String urlFoto = posts
+                  .elementAt(index)
+                  .contenidoMultimedia
+                  .replaceAll("localhost", "10.0.2.2");
+              return SizedBox(
+                  width: 150,
+                  height: 50,
+                  child: Image.network(
+                    '${urlFoto}',
+                    fit: BoxFit.fill,
+                  ));
+            })));
   }
-
-  _buildPostItem(BuildContext context, Post post) {}
 }

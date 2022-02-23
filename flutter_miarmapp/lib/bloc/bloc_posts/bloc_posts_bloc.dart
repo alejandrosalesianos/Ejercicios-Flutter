@@ -12,7 +12,7 @@ class BlocPostsBloc extends Bloc<BlocPostsEvent, BlocPostsState> {
   final PostRepository postRepository;
 
   BlocPostsBloc(this.postRepository) : super(BlocPostsInitial()) {
-    on<BlocPostsEvent>(_postsFetched);
+    on<FetchPosts>(_postsFetched);
   }
 
   void _postsFetched(BlocPostsEvent event, Emitter<BlocPostsState> emit) async {

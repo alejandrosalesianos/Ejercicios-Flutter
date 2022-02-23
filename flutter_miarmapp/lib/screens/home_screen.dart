@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_miarmapp/bloc/bloc_posts/bloc_posts_bloc.dart';
+import 'package:flutter_miarmapp/model/post_response.dart';
+import 'package:flutter_miarmapp/repository/post_repository.dart';
+import 'package:flutter_miarmapp/repository/post_repository_impl.dart';
 import 'package:flutter_miarmapp/widgets/home_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,6 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late PostRepository postRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    postRepository = PostRepositoryImpl();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +117,107 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          post('assets/images/muramasa.png', "Muramasa"),
+          BlocProvider(
+            create: (context) {
+              return BlocPostsBloc(postRepository)..add(FetchPosts());
+            },
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 358,
+              child: _createPosts(context),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _createPosts(BuildContext context) {
+    return BlocBuilder<BlocPostsBloc, BlocPostsState>(
+        builder: (context, state) {
+      if (state is BlocPostsInitial) {
+        return const CircularProgressIndicator();
+      } else if (state is BlocPostsFetchedError) {
+        return Text('Fallo al cargar los datos');
+      } else if (state is BlocPostsFetched) {
+        return _buildPosts(context, state.posts);
+      } else {
+        return const Text('No soportado');
+      }
+    });
+  }
+
+  _buildPosts(BuildContext context, List<Post> posts) {
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return _buildPostItem(posts[index]);
+          },
+          itemCount: posts.length,
+        ));
+  }
+
+  _buildPostItem(Post post) {
+    String urlFoto =
+        post.contenidoMultimedia.replaceAll("localhost", "10.0.2.2");
+    String urlAvatar = post.avatarUser.replaceAll("localhost", "10.0.2.2");
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.grey.withOpacity(.3)))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(urlAvatar),
+            ),
+            title: Text(
+              post.titulo,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(.8),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 21),
+            ),
+            trailing: const Icon(Icons.more_vert),
+          ),
+          Image.network(
+            urlFoto,
+            fit: BoxFit.cover,
+            width: double.infinity,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: const <Widget>[
+                    Icon(Icons.favorite_border, size: 31),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.comment_sharp, size: 31),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.send, size: 31),
+                  ],
+                ),
+                const Icon(Icons.bookmark_border, size: 31)
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            child: Text(
+              'Les ha gustado esta publicación',
+              style:
+                  TextStyle(fontSize: 16, color: Colors.black.withOpacity(.8)),
+            ),
+          )
         ],
       ),
     );
@@ -144,7 +257,7 @@ Widget story(String image, name) {
   );
 }
 
-Widget post(String image, name) {
+/*Widget post(String image, name) {
   return Container(
     decoration: BoxDecoration(
         color: Colors.white,
@@ -202,4 +315,4 @@ Widget post(String image, name) {
       ],
     ),
   );
-}
+}*/
