@@ -1,3 +1,5 @@
+import 'package:flutter_miarmapp/model/my_user_response.dart';
+
 abstract class UserRepository {
-  Future<List<Object>> fetchUsers(String nombre);
+  Future<MyUserResponse> fetchPostsUser();
 }

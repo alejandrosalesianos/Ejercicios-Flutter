@@ -53,8 +53,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 600,
                       child: Column(
                         children: [
-                          Padding(
-                              padding: const EdgeInsets.all(10.0),
+                          const Padding(
+                              padding: EdgeInsets.all(10.0),
                               child: Text(
                                 'Miarmapp',
                                 style: TextStyle(
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: MediaQuery.of(context).size.width / 1.5,
                               height: 50,
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Nombre de usuario'),
                                 controller: _userController,
@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: MediaQuery.of(context).size.width / 1.5,
                               height: 50,
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Correo electronico'),
                                 controller: _emailController,
@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: 50,
                               child: TextFormField(
                                 obscureText: true,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Contraseña'),
                                 controller: _passwordController,
@@ -127,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: 50,
                               child: TextFormField(
                                 obscureText: true,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Repetir contraseña'),
                                 controller: _repeatpasswordController,
@@ -215,7 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ..onTap = () {
                                     Navigator.pushNamed(context, '/login');
                                   },
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blue))
                           ]),

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_miarmapp/bloc/bloc_users/user_bloc.dart';
+import 'package:flutter_miarmapp/model/my_user_response.dart';
+import 'package:flutter_miarmapp/repository/user_repository.dart';
+import 'package:flutter_miarmapp/repository/user_repository_impl.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -10,6 +15,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with TickerProviderStateMixin {
   late TabController tabController;
+  late UserRepository userRepository;
 
   @override
   void initState() {
@@ -19,10 +25,117 @@ class _ProfileScreenState extends State<ProfileScreen>
       length: 2,
       vsync: this,
     );
+    userRepository = UserRepositoryImpl();
   }
 
   @override
   Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          BlocProvider(
+            create: (context) {
+              return UserBloc(userRepository)..add(FetchUsersEvent());
+            },
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 360,
+              child: _createUserDetail(context),
+            ),
+          ),
+          SizedBox(
+            height: 70,
+            child: TabBar(
+              indicatorColor: Colors.grey,
+              controller: tabController,
+              tabs: const [
+                Tab(
+                    icon: Icon(
+                  Icons.table_chart_outlined,
+                  color: Colors.grey,
+                )),
+                Tab(
+                    icon: Icon(
+                  Icons.person_pin_outlined,
+                  color: Colors.grey,
+                )),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 150.0,
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                BlocProvider(
+                  create: (context) {
+                    return UserBloc(userRepository)..add(FetchUsersEvent());
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 200,
+                    child: _createPostsUser(context),
+                  ),
+                ),
+                Text('Tab 2')
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _createPostsUser(BuildContext context) {
+    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+      if (state is UserInitial) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is UserFetched) {
+        return _buildPostsUser(context, state.user);
+      } else {
+        return const Text('No soportado');
+      }
+    });
+  }
+
+  _buildPostsUser(BuildContext context, MyUserResponse user) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: GridView.count(
+        crossAxisCount: 3,
+        children: List.generate(user.posts.length, (index) {
+          String urlPost = user.posts
+              .elementAt(index)
+              .contenidoMultimedia
+              .replaceAll("localhost", "10.0.2.2");
+          return SizedBox(
+            width: 50,
+            height: 80,
+            child: Image.network(
+              '${urlPost}',
+              fit: BoxFit.fill,
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  _createUserDetail(BuildContext context) {
+    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+      if (state is UserInitial) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is UserFetched) {
+        return _buildUserDetail(context, state.user);
+      } else {
+        return const Text('No soportado');
+      }
+    });
+  }
+
+  _buildUserDetail(BuildContext context, MyUserResponse user) {
+    String urlAvatar = user.avatar.replaceAll("localhost", "10.0.2.2");
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -37,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     Icon(Icons.lock),
                     SizedBox(width: 4.0),
                     Text(
-                      "Skyador",
+                      "${user.username}",
                       style:
                           TextStyle(color: Color.fromARGB(255, 255, 254, 254)),
                     ),
@@ -89,13 +202,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/muramasa.png'))),
+                                    image: NetworkImage(urlAvatar))),
                           ),
                           Column(
                             children: [
                               Text(
-                                "0",
+                                "${user.posts.length}",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0)),
                               ),
@@ -110,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           Column(
                             children: [
                               Text(
-                                "0",
+                                "${user.followers.length}",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0)),
                               ),
@@ -146,10 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Alejandro Martin Cueva",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0))),
-                              Text("Sevilla",
+                              Text("${user.username}",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0))),
                             ])),
@@ -198,32 +307,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                       color: Colors.grey[800],
                       thickness: 2.0,
                     ),
-                    SizedBox(
-                      height: 70,
-                      child: TabBar(
-                        indicatorColor: Colors.grey,
-                        controller: tabController,
-                        tabs: const [
-                          Tab(
-                              icon: Icon(
-                            Icons.table_chart_outlined,
-                            color: Colors.grey,
-                          )),
-                          Tab(
-                              icon: Icon(
-                            Icons.person_pin_outlined,
-                            color: Colors.grey,
-                          )),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 60.0,
-                      child: TabBarView(
-                        controller: tabController,
-                        children: [Text('Tab 1'), Text('Tab 2')],
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -234,3 +317,5 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 }
+/*
+*/

@@ -10,11 +10,12 @@ abstract class UserState extends Equatable {
 class UserInitial extends UserState {}
 
 class UserFetched extends UserState {
-  final List<Object> listUser; //cambiar por user cuando tenga el model
+  final MyUserResponse user;
 
-  const UserFetched(this.listUser);
+  const UserFetched(this.user);
+
   @override
-  List<Object> get props => [listUser];
+  List<Object> get props => [];
 }
 
 class UserFetchError extends UserState {

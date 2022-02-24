@@ -8,11 +8,7 @@ abstract class UserEvent extends Equatable {
 }
 
 //por cada evento que pueda producirse se instancia una nueva clase
-class FetchUserWithNameEvent extends UserEvent {
-  final String name;
-
-  const FetchUserWithNameEvent(this.name);
-
+class FetchUsersEvent extends UserEvent {
   @override
-  List<Object> get props => [name];
+  List<Object> get props => [];
 }
