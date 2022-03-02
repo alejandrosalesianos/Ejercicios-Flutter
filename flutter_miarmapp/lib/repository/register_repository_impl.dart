@@ -7,20 +7,32 @@ import 'package:flutter_miarmapp/repository/register_repository.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterRepositoryImpl extends RegisterRepository {
-@override
-  Future<RegisterResponse> register(RegisterDto registerDto,filePath) async {
-    Map<String,String> headers = {
-      'Content-Type':"application/json",
+  @override
+  Future<RegisterResponse> register(RegisterDto registerDto, filePath) async {
+    Map<String, String> headers = {
+      'Content-Type': "application/json",
     };
-      var uri = Uri.parse('${ApiConstants.apiBaseUrl}auth/register/');
-      var request = http.MultipartRequest('POST',uri)
-      ..files.add(await http.MultipartFile.fromPath('file', filePath));
-      final response = await request.send();
+    var uri = Uri.parse('${ApiConstants.apiBaseUrl}auth/register/');
+    var request = http.MultipartRequest('POST', uri);
 
-      if (response.statusCode == 201){
-        return RegisterResponse.fromJson(json.decode(jsonEncode(registerDto.toJson())));
-      } else{
-        throw Exception('Failed to register');
-      }
+    request.fields['nick'] = registerDto.nick;
+    request.fields['email'] = registerDto.email;
+    request.fields['fechaNacimiento'] = registerDto.fechaNacimiento;
+    request.fields['telefono'] = registerDto.telefono;
+    request.fields['perfil'] = registerDto.perfil;
+    request.fields['password'] = registerDto.password;
+    request.fields['password2'] = registerDto.password2;
+    request.files.add(await http.MultipartFile.fromPath('file', filePath));
+    request.files.add(await http.MultipartFile.fromPath(
+        'user', registerDto.toJson().toString()));
+
+    var response = await request.send();
+
+    if (response.statusCode == 201) {
+      return RegisterResponse.fromJson(
+          jsonDecode(await response.stream.bytesToString()));
+    } else {
+      throw Exception('Failed to register');
+    }
   }
-} 
+}

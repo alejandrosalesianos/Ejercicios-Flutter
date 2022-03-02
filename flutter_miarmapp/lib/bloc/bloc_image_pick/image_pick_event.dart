@@ -9,10 +9,19 @@ abstract class ImagePickEvent extends Equatable {
 
 class SelectImageEvent extends ImagePickEvent {
   final ImageSource source;
-  final RegisterDto registerDto;
 
-  const SelectImageEvent(this.source,this.registerDto);
+  const SelectImageEvent(this.source);
 
   @override
   List<Object> get props => [source];
+}
+
+class SaveUserEvent extends ImagePickEvent {
+  final RegisterDto registerDto;
+  final String path;
+
+  const SaveUserEvent(this.registerDto, this.path);
+
+  @override
+  List<Object> get props => [registerDto, path];
 }
