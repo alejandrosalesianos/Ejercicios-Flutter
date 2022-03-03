@@ -29,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
     loginRepository = LoginRepositoryImpl();
     _userController = TextEditingController();
     _passwordController = TextEditingController();
-    _userController.text = 'skyador3@gmail.com';
-    _passwordController.text = 'hola123';
+    _userController.text = 'V@Gmail.com';
+    _passwordController.text = 'Pingo123';
   }
 
   @override

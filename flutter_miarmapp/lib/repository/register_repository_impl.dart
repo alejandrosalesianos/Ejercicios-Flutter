@@ -30,7 +30,7 @@ class RegisterRepositoryImpl extends RegisterRepository {
       return RegisterResponse.fromJson(
           jsonDecode(await response.stream.bytesToString()));
     } else {
-      throw Exception('Failed to register');
+      throw Exception('Fallo al registrarse');
     }
   }
 }
