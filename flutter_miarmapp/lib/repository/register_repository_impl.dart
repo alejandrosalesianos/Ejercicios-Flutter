@@ -23,8 +23,6 @@ class RegisterRepositoryImpl extends RegisterRepository {
     request.fields['password'] = registerDto.password;
     request.fields['password2'] = registerDto.password2;
     request.files.add(await http.MultipartFile.fromPath('file', filePath));
-    request.files.add(await http.MultipartFile.fromPath(
-        'user', registerDto.toJson().toString()));
 
     var response = await request.send();
 

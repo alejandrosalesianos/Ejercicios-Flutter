@@ -193,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is LoginSuccessState) {
                 _prefs.then((SharedPreferences prefs) {
                   prefs.setString("token", state.loginResponse.token);
+                  prefs.setString("avatar", state.loginResponse.avatar);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MenuScreen()),

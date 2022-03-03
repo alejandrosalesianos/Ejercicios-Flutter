@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miarmapp/screens/home_screen.dart';
 import 'package:flutter_miarmapp/screens/profile_screen.dart';
 import 'package:flutter_miarmapp/screens/search_screen.dart';
+import 'package:flutter_miarmapp/util/preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -12,12 +14,19 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   int _currentIndex = 0;
+  late SharedPreferences _prefs;
 
   List<Widget> pages = [
     const HomeScreen(),
     const SearchScreen(),
     const ProfileScreen()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    PreferenceUtils.init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +90,8 @@ class _MenuScreenState extends State<MenuScreen> {
                         width: 1)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/images/muramasa.png',
+                  child: Image.network(
+                    PreferenceUtils.getString('avatar')!,
                     width: 30,
                   ),
                 ),
