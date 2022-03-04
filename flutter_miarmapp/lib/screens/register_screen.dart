@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       BoxDecoration(border: Border.all(color: Colors.grey)),
                   child: SizedBox(
                     width: 300,
-                    height: 1000,
+                    height: 810,
                     child: Column(
                       children: [
                         const Padding(
@@ -205,41 +205,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Color(0xfff1f1f5),
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: DateTimeFormField(
-                            initialDate: DateTime(2001, 9, 7),
-                            firstDate: DateTime.utc(1900),
-                            lastDate: DateTime.now(),
-                            decoration: const InputDecoration(
-                              hintStyle: TextStyle(color: Colors.black45),
-                              errorStyle: TextStyle(color: Colors.redAccent),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              height: 50,
+                              child: DateTimeFormField(
+                                initialDate: DateTime(2001, 9, 7),
+                                firstDate: DateTime.utc(1900),
+                                lastDate: DateTime.now(),
+                                decoration: const InputDecoration(
+                                  hintStyle: TextStyle(color: Colors.black45),
+                                  errorStyle:
+                                      TextStyle(color: Colors.redAccent),
+                                  border: OutlineInputBorder(),
+                                  suffixIcon: Icon(Icons.event_note),
+                                  labelText: 'Select Birth Day',
+                                ),
+                                mode: DateTimeFieldPickerMode.date,
+                                autovalidateMode: AutovalidateMode.always,
+                                validator: (e) => (e?.day ?? 0) == 1
+                                    ? 'Please not the first day'
+                                    : null,
+                                onDateSelected: (DateTime value) {
+                                  selectedDate = value;
+                                },
                               ),
-                              suffixIcon: Icon(Icons.event_note),
-                              labelText: 'Select Birth Day',
                             ),
-                            mode: DateTimeFieldPickerMode.date,
-                            autovalidateMode: AutovalidateMode.always,
-                            validator: (e) => (e?.day ?? 0) == 1
-                                ? 'Please not the first day'
-                                : null,
-                            onDateSelected: (DateTime value) {
-                              selectedDate = value;
-                            },
                           ),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          height: 50,
-                          child: TextFormField(
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Teléfono'),
-                              controller: _telefonoController,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ]),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            height: 50,
+                            child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Teléfono'),
+                                controller: _telefonoController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ]),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
@@ -286,15 +295,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     final registerDto = RegisterDto(
                                         nick: _userController.text,
                                         email: _emailController.text,
-                                        fechaNacimiento: "19-03-2001",
+                                        fechaNacimiento:
+                                            DateFormat("dd-MM-yyyy")
+                                                .format(selectedDate),
                                         telefono: _telefonoController.text,
-                                        perfil: "PUBLICO",
+                                        perfil: tipoPerfil,
                                         password: _passwordController.text,
                                         password2:
                                             _repeatpasswordController.text);
-                                    BlocProvider.of<ImagePickBloc>(context).add(
-                                        SaveUserEvent(registerDto,
-                                            'https://i.blogs.es/e1feab/google-fotos/450_1000.jpg'));
+                                    BlocProvider.of<ImagePickBloc>(context)
+                                        .add(SaveUserEvent(registerDto, ''));
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text('Iniciando sesión')),
@@ -389,7 +399,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       BoxDecoration(border: Border.all(color: Colors.grey)),
                   child: SizedBox(
                     width: 300,
-                    height: 1000,
+                    height: 930,
                     child: Column(
                       children: [
                         const Padding(
@@ -484,27 +494,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Color(0xfff1f1f5),
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: DateTimeFormField(
-                            initialDate: DateTime(2001, 9, 7),
-                            firstDate: DateTime.utc(1900),
-                            lastDate: DateTime.now(),
-                            decoration: const InputDecoration(
-                              hintStyle: TextStyle(color: Colors.black45),
-                              errorStyle: TextStyle(color: Colors.redAccent),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              height: 50,
+                              child: DateTimeFormField(
+                                initialDate: DateTime(2001, 9, 7),
+                                firstDate: DateTime.utc(1900),
+                                lastDate: DateTime.now(),
+                                decoration: const InputDecoration(
+                                  hintStyle: TextStyle(color: Colors.black45),
+                                  errorStyle:
+                                      TextStyle(color: Colors.redAccent),
+                                  border: OutlineInputBorder(),
+                                  suffixIcon: Icon(Icons.event_note),
+                                  labelText: 'Select Birth Day',
+                                ),
+                                mode: DateTimeFieldPickerMode.date,
+                                autovalidateMode: AutovalidateMode.always,
+                                validator: (e) => (e?.day ?? 0) == 1
+                                    ? 'Please not the first day'
+                                    : null,
+                                onDateSelected: (DateTime value) {
+                                  selectedDate = value;
+                                },
                               ),
-                              suffixIcon: Icon(Icons.event_note),
-                              labelText: 'Select Birth Day',
                             ),
-                            mode: DateTimeFieldPickerMode.date,
-                            autovalidateMode: AutovalidateMode.always,
-                            validator: (e) => (e?.day ?? 0) == 1
-                                ? 'Please not the first day'
-                                : null,
-                            onDateSelected: (DateTime value) {
-                              selectedDate = value;
-                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            height: 50,
+                            child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Teléfono'),
+                                controller: _telefonoController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ]),
                           ),
                         ),
                         Padding(
@@ -532,15 +564,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 tipoPerfil = value!;
                               });
                             }),
-                        TextFormField(
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Teléfono'),
-                            controller: _emailController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ]),
                         Container(
                           margin: EdgeInsets.all(20),
                           width: 100,
@@ -565,7 +588,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         fechaNacimiento:
                                             DateFormat("dd-MM-yyyy")
                                                 .format(selectedDate),
-                                        telefono: "636895806",
+                                        telefono: _telefonoController.text,
                                         perfil: tipoPerfil,
                                         password: _passwordController.text,
                                         password2:
