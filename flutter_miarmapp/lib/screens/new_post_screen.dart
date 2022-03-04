@@ -10,7 +10,7 @@ import 'package:flutter_miarmapp/screens/menu_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewPost extends StatefulWidget {
-  const NewPost({ Key? key }) : super(key: key);
+  const NewPost({Key? key}) : super(key: key);
 
   @override
   State<NewPost> createState() => _NewPostState();
@@ -22,7 +22,7 @@ class _NewPostState extends State<NewPost> {
   late TextEditingController _tituloController;
   late TextEditingController _contenidoController;
   late String path = '';
-  String tipoPerfil = 'PUBLICO';
+  String tipoPerfil = 'PUBLICA';
 
   @override
   void initState() {
@@ -35,35 +35,37 @@ class _NewPostState extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(create: (context) {
-        return BlocPostsBloc(postRepository);
-      },
-      child: BlocConsumer<BlocPostsBloc,BlocPostsState>(
-        listenWhen: (context, state) {
-        return state is ImageSelectedPostSuccessState;
-      },
-      listener: (context, state) {
-        if (state is NewPostSuccessState){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuScreen()));
-        }else if (state is NewPostErrorState){
-          _showSnackBar(context,state.message);
-        }
-      },
-      buildWhen: (context, state) {
-        return state is BlocPostsInitial ||
-          state is ImageSelectedPostSuccessState ||
-          state is NewPostLoadingState;
-      },
-      builder: (context, state) {
-        if (state is ImageSelectedPostSuccessState) {
-          path = state.SelectedFile.path;
-          return formBuilder(context,path);
-        } else if (state is NewPostLoadingState) {
-          Navigator.pushNamed(context, '/');
-        }
-        return formBuilderWithoutImage(context);
-      },
-      ),
+      body: BlocProvider(
+        create: (context) {
+          return BlocPostsBloc(postRepository);
+        },
+        child: BlocConsumer<BlocPostsBloc, BlocPostsState>(
+          listenWhen: (context, state) {
+            return state is ImageSelectedPostSuccessState;
+          },
+          listener: (context, state) {
+            if (state is NewPostSuccessState) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const MenuScreen()));
+            } else if (state is NewPostErrorState) {
+              _showSnackBar(context, state.message);
+            }
+          },
+          buildWhen: (context, state) {
+            return state is BlocPostsInitial ||
+                state is ImageSelectedPostSuccessState ||
+                state is NewPostLoadingState;
+          },
+          builder: (context, state) {
+            if (state is ImageSelectedPostSuccessState) {
+              path = state.SelectedFile.path;
+              return formBuilder(context, path);
+            } else if (state is NewPostLoadingState) {
+              Navigator.pushNamed(context, '/');
+            }
+            return formBuilderWithoutImage(context);
+          },
+        ),
       ),
     );
   }
@@ -77,17 +79,16 @@ class _NewPostState extends State<NewPost> {
         child: Column(
           children: [
             Container(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Container(
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
-                  child: SizedBox(
-                    width: 300,
-                    height: 420,
-                    child: Column(
-                      children: [
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    child: SizedBox(
+                      width: 300,
+                      height: 500,
+                      child: Column(children: [
                         const Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Text(
@@ -135,7 +136,31 @@ class _NewPostState extends State<NewPost> {
                             ),
                           ),
                         ),
-
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'Visibilidad del perfil',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        ),
+                        DropdownButton(
+                            items: [
+                              DropdownMenuItem(
+                                child: Text('Pública'),
+                                value: 'PUBLICA',
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Privada'),
+                                value: 'PRIVADA',
+                              )
+                            ],
+                            value: tipoPerfil,
+                            onChanged: (String? value) {
+                              setState(() {
+                                tipoPerfil = value!;
+                              });
+                            }),
                         Container(
                           margin: EdgeInsets.all(20),
                           width: 100,
@@ -156,7 +181,7 @@ class _NewPostState extends State<NewPost> {
                                   if (_formKey.currentState!.validate()) {
                                     final postDto = PostDto(
                                         contenido: _contenidoController.text,
-                                        tipoPublicacion: "PUBLICA",
+                                        tipoPublicacion: tipoPerfil,
                                         titulo: _tituloController.text);
                                     BlocProvider.of<BlocPostsBloc>(context)
                                         .add(SavePostEvent(postDto, path));
@@ -165,17 +190,16 @@ class _NewPostState extends State<NewPost> {
                                 child: Text('Siguiente')),
                           ),
                         ),
-                      ]
-                      ),
-              ),
-            ),
-              )
-            )
-            ],
+                      ]),
+                    ),
+                  ),
+                ))
+          ],
         ),
       ),
     );
   }
+
   Widget formBuilderWithoutImage(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
@@ -183,17 +207,16 @@ class _NewPostState extends State<NewPost> {
         child: Column(
           children: [
             Container(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Container(
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
-                  child: SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: Column(
-                      children: [
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    child: SizedBox(
+                      width: 300,
+                      height: 400,
+                      child: Column(children: [
                         const Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Text(
@@ -241,12 +264,37 @@ class _NewPostState extends State<NewPost> {
                             ),
                           ),
                         ),
-                        
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'Visibilidad del perfil',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        ),
+                        DropdownButton(
+                            items: [
+                              DropdownMenuItem(
+                                child: Text('Pública'),
+                                value: 'PUBLICA',
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Privada'),
+                                value: 'PRIVADA',
+                              )
+                            ],
+                            value: tipoPerfil,
+                            onChanged: (String? value) {
+                              setState(() {
+                                tipoPerfil = value!;
+                              });
+                            }),
                         Center(
                           child: ElevatedButton(
                             onPressed: () {
                               BlocProvider.of<BlocPostsBloc>(context).add(
-                                  const SelectImagePostEvent(ImageSource.gallery));
+                                  const SelectImagePostEvent(
+                                      ImageSource.gallery));
                             },
                             child: const Text('Seleccionar imagen'),
                           ),
@@ -261,7 +309,7 @@ class _NewPostState extends State<NewPost> {
                                   if (_formKey.currentState!.validate()) {
                                     final postDto = PostDto(
                                         contenido: _contenidoController.text,
-                                        tipoPublicacion: "PUBLICA",
+                                        tipoPublicacion: tipoPerfil,
                                         titulo: _tituloController.text);
                                     BlocProvider.of<BlocPostsBloc>(context)
                                         .add(SavePostEvent(postDto, path));
@@ -270,13 +318,11 @@ class _NewPostState extends State<NewPost> {
                                 child: Text('Siguiente')),
                           ),
                         ),
-                      ]
-                      ),
-              ),
-            ),
-              )
-            )
-            ],
+                      ]),
+                    ),
+                  ),
+                ))
+          ],
         ),
       ),
     );
